@@ -1,33 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
+import CartMovies from './components/CartMovies'
+import NavBar from './components/NavBar'
+import axios from 'axios'
 import './App.css'
+import { MovieConfig } from './types/movie.type'
+const MOVIE_API = 'https://api.themoviedb.org/3/'
+const API_KEY = 'api_key=66b0125714beeef00566c60f07155ae0'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [movies, setMovies] = useState([])
+  const [searchKey, setSearchKey] = useState('')
+  const [statusMovie, setStatusMovie] = useState('/now_playing')
+
+  const fetchMovies = async () => {
+    const { data } = await axios.get(
+      `${MOVIE_API}movie${statusMovie}/?${API_KEY}`
+    )
+    setMovies(data.results)
+  }
+
+  useEffect(() => {
+    fetchMovies()
+  }, [statusMovie])
+
+  const renderMovies = () =>
+    movies.map((movie) => {
+      if (!movie) return null
+      return <CartMovies movie={movie} />
+    })
+
+  const selectStatusMovie = (status: string) => {
+    setStatusMovie(status)
+  }
+  console.log('movies', movies)
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className='App'>
+      <header className='center-max-size header'>
+        <NavBar selectStatusMovie={selectStatusMovie} />
+        <form className='form' onSubmit={fetchMovies}>
+          <input
+            className='search'
+            type='text'
+            id='search'
+            onInput={(event: any) => setSearchKey(event.target.value)}
+          />
+          <button className='submit-search' type='submit'>
+            <i className='fa fa-search'></i>
+          </button>
+        </form>
+      </header>
+      <div className={'center-max-size container'}>{renderMovies()}</div>
     </div>
   )
 }
