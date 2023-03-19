@@ -6,14 +6,15 @@ import './App.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useQueryParams from './hooks/useQueryParams'
 import useDebounce from './hooks/useDebounce'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 const MOVIE_API = 'https://api.themoviedb.org/3/'
 const API_KEY = 'api_key=66b0125714beeef00566c60f07155ae0'
-
+const now_playing = '/now_playing'
 function App() {
   const [movies, setMovies] = useState([])
   const [searchKey, setSearchKey] = useState('')
-  const [statusMovie, setStatusMovie] = useState('/now_playing')
+  const [statusMovie, setStatusMovie] = useState(now_playing)
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
@@ -25,30 +26,40 @@ function App() {
     setLoading(true)
     try {
       const { data } = await axios.get(
-        `${MOVIE_API}movie${location.pathname}?${API_KEY}`
+        `${MOVIE_API}movie${statusMovie}?${API_KEY}`
       )
       setMovies(data.results)
     } catch (error) {
-      console.log(`sorry, can't get the movie:`, error)
+      if (axios.isAxiosError(error)) {
+        return toast.error(`sorry, can't get the movie: ${error.message}`, {
+          position: 'top-center'
+        })
+      }
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const searchMovies = async () => {
     setLoading(true)
     try {
       const { data } = await axios.get(
-        `${MOVIE_API}/search/movie?${API_KEY}&query=${searchKey}`
+        `${MOVIE_API}/search/movie?${API_KEY}&query=${debounceValue}`
       )
       setMovies(data.results)
     } catch (error) {
-      console.log(`sorry, can't get the movie:`, error)
+      if (axios.isAxiosError(error)) {
+        return toast.error(`sorry, can't get the movie: ${error.message}`, {
+          position: 'top-center'
+        })
+      }
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   useEffect(() => {
-    if (queryParam.keywords !== '' && undefined) {
+    if (queryParam.keywords !== '' && queryParam.keywords !== undefined) {
       setSearchKey(queryParam.keywords)
     }
   }, [queryParam.keywords])
@@ -82,8 +93,6 @@ function App() {
       navigate('/now_playing')
     }
   }
-
-  // console.log('movie', movies)
 
   return (
     <div className='App'>
@@ -126,6 +135,7 @@ function App() {
       ) : (
         <div className={'center-max-size container'}>{renderMovies()}</div>
       )}
+      <ToastContainer />
     </div>
   )
 }
