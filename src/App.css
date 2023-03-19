@@ -5,18 +5,24 @@ body {
   background-color: #090a0e;
   color: #ffffff;
 }
-
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 10%;
+}
 .center-max-size {
-  max-width: 1020px;
+  /* max-width: 1020px; */
   margin: 0 auto;
-  padding: 0 15px;
 }
 
 .header {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  padding-top: 30px;
   text-transform: uppercase;
 }
 

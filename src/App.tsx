@@ -95,7 +95,7 @@ function App() {
   }
 
   return (
-    <div className='App'>
+    <div className='app'>
       <header className='center-max-size header'>
         <NavBar selectStatusMovie={selectStatusMovie} />
         <form className='form' onSubmit={fetchMovies}>
@@ -133,7 +133,7 @@ function App() {
           </svg>
         </div>
       ) : (
-        <div className={'center-max-size container'}>{renderMovies()}</div>
+        <div className={' -mx-1 flex flex-wrap lg:-mx-4'}>{renderMovies()}</div>
       )}
       <ToastContainer />
     </div>
