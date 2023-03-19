@@ -1,9 +1,10 @@
 import { createPortal } from 'react-dom'
 import styles from './detail.module.scss'
+import { Genres, MovieDetail } from 'src/types/movie.type'
 
 interface DetailProps {
   cancel: () => void
-  inforMovie?: any
+  inforMovie: MovieDetail | null
 }
 
 const root = document.getElementById('root') as HTMLElement
@@ -40,7 +41,12 @@ export default function Detail({ cancel, inforMovie }: DetailProps) {
               <h1 className='font-black text-gray-900'>{inforMovie.title}</h1>
               <div className={styles.labelGroup}>
                 <div className='  font-bold text-gray-900'>genres:</div>
-                <div className='text-base text-gray-700'>genres</div>
+                <div className={`text-base text-gray-700`}>
+                  {inforMovie.genres.map((item) => {
+                    console.log(item)
+                    return item.name + ' '
+                  })}
+                </div>
               </div>
               <div className={styles.labelGroup}>
                 <div className='  font-bold text-gray-900'>release_date:</div>
@@ -51,7 +57,7 @@ export default function Detail({ cancel, inforMovie }: DetailProps) {
               <div className={styles.labelGroup}>
                 <div className='  font-bold text-gray-900'>runtime:</div>
                 <div className='text-base text-gray-700'>
-                  {inforMovie.runtime}
+                  {inforMovie.runtime} minute
                 </div>
               </div>
 

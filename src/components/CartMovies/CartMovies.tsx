@@ -2,13 +2,14 @@ import { MovieConfig } from 'src/types/movie.type'
 
 interface Props {
   movie: MovieConfig
-  selectMovie: any
+  selectMovie: (id: number) => void
 }
 
 export default function CartMovies(props: Props) {
   const { movie, selectMovie } = props
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/original'
 
+  if (!movie) return null
   return (
     <div
       className={

@@ -9,6 +9,7 @@ import useDebounce from './hooks/useDebounce'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Detail from './components/Detail'
+import { MovieDetail } from './types/movie.type'
 const MOVIE_API = 'https://api.themoviedb.org/3/'
 const API_KEY = 'api_key=66b0125714beeef00566c60f07155ae0'
 const now_playing = '/now_playing'
@@ -18,7 +19,7 @@ function App() {
   const [searchKey, setSearchKey] = useState('')
   const [statusMovie, setStatusMovie] = useState(now_playing)
   const [loading, setLoading] = useState(false)
-  const [movieDisplay, setMovieDisplay] = useState<any>(null)
+  const [movieDisplay, setMovieDisplay] = useState<MovieDetail | null>(null)
 
   const navigate = useNavigate()
   const location = useLocation()
