@@ -1,6 +1,11 @@
 import { MovieConfig } from 'src/types/movie.type'
 
-export default function CartMovies({ movie }: MovieConfig) {
+interface Props {
+  movie: MovieConfig
+}
+
+export default function CartMovies(props: Props) {
+  const { movie } = props
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/original'
   return (
     <div className={'movie'}>
