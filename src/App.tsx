@@ -8,14 +8,17 @@ import useQueryParams from './hooks/useQueryParams'
 import useDebounce from './hooks/useDebounce'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Detail from './components/Detail'
 const MOVIE_API = 'https://api.themoviedb.org/3/'
 const API_KEY = 'api_key=66b0125714beeef00566c60f07155ae0'
 const now_playing = '/now_playing'
+
 function App() {
   const [movies, setMovies] = useState([])
   const [searchKey, setSearchKey] = useState('')
   const [statusMovie, setStatusMovie] = useState(now_playing)
   const [loading, setLoading] = useState(false)
+  const [movieDisplay, setMovieDisplay] = useState<any>(null)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -76,7 +79,7 @@ function App() {
     //render movies card
     movies.map((movie) => {
       if (!movie) return null
-      return <CartMovies movie={movie} />
+      return <CartMovies movie={movie} selectMovie={selectMovie} />
     })
 
   const selectStatusMovie = (status: string) => {
@@ -92,6 +95,26 @@ function App() {
     } else {
       navigate('/now_playing')
     }
+  }
+
+  const selectMovie = async (id: number) => {
+    setLoading(true)
+    try {
+      const { data } = await axios.get(`${MOVIE_API}movie/${id}?${API_KEY}`)
+      setMovieDisplay(data)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return toast.error(`sorry, can't get the movie: ${error.message}`, {
+          position: 'top-center'
+        })
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const hideDetail = () => {
+    setMovieDisplay(null)
   }
 
   return (
@@ -136,6 +159,7 @@ function App() {
         <div className={' -mx-1 flex flex-wrap lg:-mx-4'}>{renderMovies()}</div>
       )}
       <ToastContainer />
+      <Detail cancel={hideDetail} inforMovie={movieDisplay} />
     </div>
   )
 }
