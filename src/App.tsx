@@ -17,17 +17,25 @@ function App() {
   const queryParam = useQueryParams()
 
   const fetchMovies = async () => {
-    const { data } = await axios.get(
-      `${MOVIE_API}movie${location.pathname}?${API_KEY}`
-    )
-    setMovies(data.results)
+    try {
+      const { data } = await axios.get(
+        `${MOVIE_API}movie${location.pathname}?${API_KEY}`
+      )
+      setMovies(data.results)
+    } catch (error) {
+      console.log(`sorry, can't get the movie:`, error)
+    }
   }
 
   const searchMovies = async () => {
-    const { data } = await axios.get(
-      `${MOVIE_API}/search/movie?${API_KEY}&query=${searchKey}`
-    )
-    setMovies(data.results)
+    try {
+      const { data } = await axios.get(
+        `${MOVIE_API}/search/movie?${API_KEY}&query=${searchKey}`
+      )
+      setMovies(data.results)
+    } catch (error) {
+      console.log(`sorry, can't get the movie:`, error)
+    }
   }
 
   useEffect(() => {
