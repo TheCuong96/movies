@@ -5,6 +5,8 @@ import axios from 'axios'
 import './App.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useQueryParams from './hooks/useQueryParams'
+import useDebounce from './hooks/useDebounce'
+
 const MOVIE_API = 'https://api.themoviedb.org/3/'
 const API_KEY = 'api_key=66b0125714beeef00566c60f07155ae0'
 
@@ -15,6 +17,7 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
   const queryParam = useQueryParams()
+  const debounceValue = useDebounce({ value: searchKey, delay: 500 })
 
   const fetchMovies = async () => {
     try {
@@ -45,12 +48,12 @@ function App() {
   }, [queryParam.keywords])
 
   useEffect(() => {
-    if (searchKey !== '') {
+    if (debounceValue !== '') {
       searchMovies()
     } else {
       fetchMovies()
     }
-  }, [statusMovie, searchKey])
+  }, [statusMovie, debounceValue])
 
   const renderMovies = () =>
     //render movies card
@@ -74,6 +77,8 @@ function App() {
     }
   }
 
+  // console.log('movie', movies)
+
   return (
     <div className='App'>
       <header className='center-max-size header'>
@@ -83,7 +88,9 @@ function App() {
             className='search'
             type='text'
             id='search'
+            // onInput={handleChangeInput}
             onInput={handleChangeInput}
+            value={searchKey}
           />
           <button className='submit-search' type='submit'>
             <i className='fa fa-search'></i>
