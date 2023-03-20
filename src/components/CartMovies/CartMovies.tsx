@@ -9,7 +9,6 @@ interface Props {
 export default function CartMovies(props: Props) {
   const { movie, selectMovie, listAndGrid } = props
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/original'
-  console.log('listAndGrid', listAndGrid)
 
   if (!movie) return null
   return (

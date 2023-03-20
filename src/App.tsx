@@ -133,7 +133,7 @@ function App() {
           <div className='flex flex-row justify-between gap-x-8'>
             <div
               className={classNames(
-                'flex items-center capitalize transition-colors',
+                'flex cursor-pointer items-center capitalize transition-colors',
                 {
                   'text-skyblue': listAndGrid,
                   'text-gray-600': !listAndGrid
@@ -145,7 +145,7 @@ function App() {
             </div>
             <div
               className={classNames(
-                'flex items-center capitalize transition-colors',
+                'flex cursor-pointer items-center capitalize transition-colors',
                 {
                   'text-skyblue': !listAndGrid,
                   'text-gray-600': listAndGrid

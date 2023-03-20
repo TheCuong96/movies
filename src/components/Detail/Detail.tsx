@@ -12,7 +12,6 @@ const root = document.getElementById('root') as HTMLElement
 export default function Detail({ cancel, inforMovie }: DetailProps) {
   const visible = inforMovie !== null
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/original'
-  console.log('inforMovie', inforMovie)
 
   const handleCancel = () => {
     cancel()
@@ -43,7 +42,6 @@ export default function Detail({ cancel, inforMovie }: DetailProps) {
                 <div className='  font-bold text-gray-900'>genres:</div>
                 <div className={`text-base text-gray-700`}>
                   {inforMovie.genres.map((item) => {
-                    console.log(item)
                     return item.name + ' '
                   })}
                 </div>
