@@ -96,6 +96,7 @@ function App() {
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     //handle search api and url
+    // event.preventDefault()
     const keywords = event.target.value
     setSearchKey(keywords)
     if (keywords.length > 0) {
@@ -156,7 +157,7 @@ function App() {
               grid
             </div>
           </div>
-          <form className='form' onSubmit={fetchMovies}>
+          <div className='form'>
             <input
               className='search'
               type='text'
@@ -167,7 +168,7 @@ function App() {
             <button className='submit-search' type='submit'>
               <i className='fa fa-search'></i>
             </button>
-          </form>
+          </div>
         </header>
 
         {loading ? (
